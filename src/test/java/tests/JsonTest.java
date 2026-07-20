@@ -12,7 +12,7 @@ public class JsonTest {
     @Test
     public void testAccessJson(){
         JsonPath jsonPath = new JsonPath(CoursePayload.CoursePrice());
-
+ 
         //get size of an array
         int numberOfCourses = jsonPath.getInt("courses.size()");
         Assert.assertEquals(numberOfCourses,4);

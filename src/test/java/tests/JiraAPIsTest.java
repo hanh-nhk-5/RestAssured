@@ -24,7 +24,8 @@ public class JiraAPIsTest {
         JsonPath js = new JsonPath(response);
         String issueId= js.getString("id");
 
-        given().pathParams("issueId", issueId)
+        RestAssured.baseURI = "https://dungchungonline.atlassian.net";
+        given().pathParam("issueId", issueId)
                 .header("Authorization", "Basic ZHVuZ2NodW5nb25saW5lQGdtYWlsLmNvbTpBVEFUVDN4RmZHRjB0Wl9uN2Vfajh4ck5qREF2UnNjVmpoaUlHLVp1VWpUdnlJQTR6bTNaYjFMWXctbHVMR3dtRUxObk5JdGMxa1plVlh5ZFl1YmdZRzB3NGpMZkphYVVUVGJGSmdVb2I4WVNaOXd0Rk40a2g2Q1JibjBIS1dNWlZmdWpkaUhtaGVidnpudEdFalRsZGVITjBjcVBpb2hGSV9veW9sOS1uME9iTTF3dkJEdE1BMEE9RUQyODYyOUE=")
                 .header("X-Atlassian-Token", "nocheck")
                 .multiPart(new File("\\Users\\HanhNHK\\Desktop\\Untitled.png"))
