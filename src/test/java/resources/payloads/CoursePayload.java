@@ -1,7 +1,7 @@
 package resources.payloads;
 
-public class Course {
-    public static String CoursePricePayload()
+public class CoursePayload {
+    public static String CoursePrice()
     {
         return "{\r\n" +
                 "  \"dashboard\": {\r\n" +

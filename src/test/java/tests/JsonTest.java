@@ -3,7 +3,7 @@ package tests;
 import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import resources.payloads.Course;
+import resources.payloads.CoursePayload;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class JsonTest {
     @Test
     public void testAccessJson(){
-        JsonPath jsonPath = new JsonPath(Course.CoursePricePayload());
+        JsonPath jsonPath = new JsonPath(CoursePayload.CoursePrice());
 
         //get size of an array
         int numberOfCourses = jsonPath.getInt("courses.size()");

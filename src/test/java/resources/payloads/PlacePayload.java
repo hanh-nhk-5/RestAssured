@@ -1,7 +1,7 @@
 package resources.payloads;
 
-public class Place {
-    public static String getAddPlacePayload(){
+public class PlacePayload {
+    public static String getAddPlace(){
         return "{\n" +
                 "  \"location\": {\n" +
                 "    \"lat\": -38.383494,\n" +
