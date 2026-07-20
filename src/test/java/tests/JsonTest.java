@@ -41,7 +41,7 @@ public class JsonTest {
         Map<String, Object> course = jsonPath.getMap("courses.find {it.title == 'Cypress'}");
         System.out.println(course);
 
-        //find an element in an array by multiple conditions
+        //find elements in an array by multiple conditions
         List<Map<String, Object>> courses = jsonPath.getList("courses.findAll {it.title == 'Cypress' || it.price == 36}");
         for(Map<String, Object> c: courses){
             System.out.println("The course " + c.get("title") + " costs $" + c.get("price") + " and there is "+ c.get("copies")+" copies");
