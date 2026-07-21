@@ -1,7 +1,13 @@
 package resources.payloads;
 
+import resources.pojo.map.Location;
+import resources.pojo.map.CreatePlaceRequest;
+import resources.pojo.map.UpdatePlaceRequest;
+
+import java.util.ArrayList;
+
 public class PlacePayload {
-    public static String getAddPlace(){
+    public static String getAddPlaceJson(){
         return "{\n" +
                 "  \"location\": {\n" +
                 "    \"lat\": -38.383494,\n" +
@@ -20,11 +26,32 @@ public class PlacePayload {
                 "}\n";
     }
 
-    public static String GetUpdatePlacePayload(String place_id, String address){
+    public static CreatePlaceRequest getAddPlaceObject(){
+        CreatePlaceRequest place = new CreatePlaceRequest();
+        place.setAccuracy(50);
+        place.setAddress("29, side layout, cohen 09");
+        place.setLanguage("Vietnamese");
+        place.setLocation(new Location(-38.383494, 33.427362));
+        place.setName("Hanh");
+        ArrayList<String> types= new ArrayList<>();
+        types.add("shoe park");
+        types.add("restaurant");
+        place.setTypes(types);
+        place.setWebsite("https://taolaomialao.com");
+        place.setPhone_number("(+91) 983 893 3937");
+        return place;
+    }
+
+    public static String GetUpdatePlaceJson(String place_id, String address){
         return "{\n" +
                 "\"place_id\":\""+ place_id +"\",\n" +
                 "\"address\":\""+ address +"\",\n" +
                 "\"key\":\"qaclick123\"\n" +
                 "}\n";
     }
+
+    public static UpdatePlaceRequest GetUpdatePlaceObject(String place_id, String address){
+        return new UpdatePlaceRequest(place_id, address, "qaclick123");
+    }
+
 }

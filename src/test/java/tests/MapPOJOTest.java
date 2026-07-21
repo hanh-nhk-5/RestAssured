@@ -1,19 +1,20 @@
 package tests;
-
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.testng.annotations.Test;
 import resources.payloads.PlacePayload;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
-public class MapTest {
+public class MapPOJOTest {
 
     @Test
-    public void testMapAPI(){
+    public void testMapAPI_POJO(){
         //S1: add a place into the map and get place_id from the api response using JsonPath
         RestAssured.baseURI= "https://rahulshettyacademy.com";
-        String response= given().log().all().queryParam("key", "qaclick123").body(PlacePayload.getAddPlaceJson())
+        String response= given().log().all()
+                        .queryParam("key", "qaclick123")
+                        .body(PlacePayload.getAddPlaceObject())
                         .when().post("/maps/api/place/add/json")
                         .then().assertThat().statusCode(200).extract().response().body().asString();
         JsonPath jsonPath = new JsonPath(response);
@@ -22,7 +23,7 @@ public class MapTest {
         //S2: update address of the place
         String expectedAddress= "123 somewhere, TX";
         given().log().all().queryParam("key", "qaclick123").queryParam("place_id", place_id)
-                .body(PlacePayload.GetUpdatePlaceJson(place_id, expectedAddress))
+                .body(PlacePayload.GetUpdatePlaceObject(place_id, expectedAddress))
                 .when().put("/maps/api/place/update/json")
                 .then().assertThat().statusCode(200).body("msg", equalTo("Address successfully updated"));
 
