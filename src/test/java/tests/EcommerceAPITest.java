@@ -32,6 +32,13 @@ public class EcommerceAPITest {
 
     private static final String USER_EMAIL = System.getProperty("ecom.user.email", "dungchungonline@gmail.com");
     private static final String USER_PASSWORD = System.getProperty("ecom.user.password", "123qwe");
+    private static final String PRODUCT_NAME = "Hanh Shirt";
+    private static final String PRODUCT_CATEGORY = "fashion";
+    private static final String PRODUCT_SUB_CATEGORY = "shirts";
+    private static final int PRODUCT_PRICE = 11500;
+    private static final String PRODUCT_DESCRIPTION = "Adias Originals";
+    private static final String PRODUCT_FOR = "women";
+    private static final String ORDER_COUNTRY = "United States";
     private static final String PRODUCT_IMAGE_PATH = System.getProperty(
             "ecom.product.image.path",
             System.getProperty("user.home") + "\\Desktop\\Untitled.png"
@@ -43,19 +50,30 @@ public class EcommerceAPITest {
     @Test
     public void endToEndTest() {
         LoginResponse loginResponse = login(USER_EMAIL, USER_PASSWORD);
-        assertNotNull(loginResponse.getToken(), "Login token must be returned");
-        assertNotNull(loginResponse.getUserId(), "User ID must be returned");
+        assertNonBlank(loginResponse.getToken(), "Login token must be returned");
+        assertNonBlank(loginResponse.getUserId(), "User ID must be returned");
 
-        String productId = addProduct(loginResponse.getToken(), loginResponse.getUserId());
-        assertNotNull(productId, "Product ID must be returned");
-        assertFalse(productId.isBlank(), "Product ID must not be blank");
+        String productId = null;
+        String orderId = null;
+        try {
+            productId = addProduct(loginResponse.getToken(), loginResponse.getUserId());
+            assertNonBlank(productId, "Product ID must be returned");
 
-        String orderId = createOrder(loginResponse.getToken(), productId);
-        assertNotNull(orderId, "Order ID must be returned");
-        assertFalse(orderId.isBlank(), "Order ID must not be blank");
+            orderId = createOrder(loginResponse.getToken(), productId);
+            assertNonBlank(orderId, "Order ID must be returned");
+        } finally {
+            if (orderId != null) {
+                deleteOrder(loginResponse.getToken(), orderId);
+            }
+            if (productId != null) {
+                deleteProduct(loginResponse.getToken(), productId);
+            }
+        }
+    }
 
-        deleteOrder(loginResponse.getToken(), orderId);
-        deleteProduct(loginResponse.getToken(), productId);
+    private void assertNonBlank(String value, String message) {
+        assertNotNull(value, message);
+        assertFalse(value.trim().isEmpty(), message);
     }
 
     private LoginResponse login(String email, String password) {
@@ -81,13 +99,13 @@ public class EcommerceAPITest {
 
         String responseStr = given()
                 .spec(authorizedRequestSpec(token))
-                .formParam("productName", "Hanh Shirt")
+                .formParam("productName", PRODUCT_NAME)
                 .formParam("productAddedBy", userId)
-                .formParam("productCategory", "fashion")
-                .formParam("productSubCategory", "shirts")
-                .formParam("productPrice", 11500)
-                .formParam("productDescription", "Adias Originals")
-                .formParam("productFor", "women")
+                .formParam("productCategory", PRODUCT_CATEGORY)
+                .formParam("productSubCategory", PRODUCT_SUB_CATEGORY)
+                .formParam("productPrice", PRODUCT_PRICE)
+                .formParam("productDescription", PRODUCT_DESCRIPTION)
+                .formParam("productFor", PRODUCT_FOR)
                 .multiPart("productImage", productImage)
                 .when()
                 .post(ADD_PRODUCT_ENDPOINT)
@@ -102,7 +120,7 @@ public class EcommerceAPITest {
 
     private String createOrder(String token, String productId) {
         Order order = new Order();
-        order.setCountry("United States");
+        order.setCountry(ORDER_COUNTRY);
         order.setProductOrderedId(productId);
 
         ArrayList<Order> orders = new ArrayList<>();
