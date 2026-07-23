@@ -22,7 +22,7 @@ public class MapTest {
         //S2: update address of the place
         String expectedAddress= "123 somewhere, TX";
         given().log().all().queryParam("key", "qaclick123").queryParam("place_id", place_id)
-                .body(PlacePayload.GetUpdatePlaceJson(place_id, expectedAddress))
+                .body(PlacePayload.getUpdatePlaceJson(place_id, expectedAddress))
                 .when().put("/maps/api/place/update/json")
                 .then().assertThat().statusCode(200).body("msg", equalTo("Address successfully updated"));
 

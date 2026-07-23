@@ -42,7 +42,7 @@ public class PlacePayload {
         return place;
     }
 
-    public static String GetUpdatePlaceJson(String place_id, String address){
+    public static String getUpdatePlaceJson(String place_id, String address){
         return "{\n" +
                 "\"place_id\":\""+ place_id +"\",\n" +
                 "\"address\":\""+ address +"\",\n" +
@@ -50,7 +50,7 @@ public class PlacePayload {
                 "}\n";
     }
 
-    public static UpdatePlaceRequest GetUpdatePlaceObject(String place_id, String address){
+    public static UpdatePlaceRequest getUpdatePlaceObject(String place_id, String address){
         return new UpdatePlaceRequest(place_id, address, "qaclick123");
     }
 

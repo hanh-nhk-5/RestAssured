@@ -18,9 +18,8 @@ import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static resources.utils.AssertHelpers.*;
 
 public class EcommerceAPITest {
     private static final String BASE_URI = "https://rahulshettyacademy.com";
@@ -50,6 +49,7 @@ public class EcommerceAPITest {
     @Test
     public void endToEndTest() {
         LoginResponse loginResponse = login(USER_EMAIL, USER_PASSWORD);
+
         assertNonBlank(loginResponse.getToken(), "Login token must be returned");
         assertNonBlank(loginResponse.getUserId(), "User ID must be returned");
 
@@ -69,11 +69,6 @@ public class EcommerceAPITest {
                 deleteProduct(loginResponse.getToken(), productId);
             }
         }
-    }
-
-    private void assertNonBlank(String value, String message) {
-        assertNotNull(value, message);
-        assertFalse(value.trim().isEmpty(), message);
     }
 
     private LoginResponse login(String email, String password) {

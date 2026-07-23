@@ -13,6 +13,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 
 import static io.restassured.RestAssured.*;
+import static resources.utils.AssertHelpers.*;
 
 public class JiraAPIsTest {
     private static final String BASE_URI = "https://dungchungonline.atlassian.net";
@@ -31,8 +32,7 @@ public class JiraAPIsTest {
     @Test
     public void testAddingAttachmentAPI() {
         String issueId = createIssue();
-        assertNotNull(issueId, "Issue id is null");
-        assertFalse(issueId.isEmpty(), "Issue id is empty");
+        assertNonBlank(issueId, "Issue ID must be returned from create-issue API");
 
         addAttachment(issueId);
     }

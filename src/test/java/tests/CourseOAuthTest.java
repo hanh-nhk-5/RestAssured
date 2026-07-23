@@ -6,10 +6,10 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 import resources.pojo.course.GetCourseDetailsResponse;
 
 import static io.restassured.RestAssured.given;
+import static resources.utils.AssertHelpers.assertNonBlank;
 
 public class CourseOAuthTest {
     private static final String BASE_URI = "https://rahulshettyacademy.com";
@@ -28,8 +28,7 @@ public class CourseOAuthTest {
     public void testGetCourseDetailsWithOAuth(){
         //S1: get access token from oAuth API
         String token = login();
-        assertNotNull(token, "Token is null");
-        assertFalse(token.isEmpty(), "Token is empty");
+        assertNonBlank(token, "Token must be returned from login API");
 
         //S2: execute the getCourseDetails API
         getcourseDetails(token);
